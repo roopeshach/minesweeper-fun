@@ -8,11 +8,13 @@ let gridSize = 30; // Default grid size
 let gameBoard = [];
 let gameOver = false;
 let score = 0;
+let highestScore = localStorage.getItem('highestScore') || 0;
 
 // DOM elements
 const gameBoardEl = document.getElementById('game-board');
 const statusMessageEl = document.getElementById('status-message');
 const scoreEl = document.getElementById('score');
+const highestScoreEl = document.getElementById('highest-score');
 
 /**
  * Initializes the game board and starts a new game.
@@ -90,9 +92,12 @@ function revealCell(row, col) {
     cell.innerHTML = `<i class="fas fa-bomb bomb"></i>`;
     gameOver = true;
     statusMessageEl.textContent = `Game Over! Final Score: ${score}`;
+    updateHighestScore();
   } else {
     if (gameBoard[row][col].adjacentBombs > 0) {
       cell.textContent = gameBoard[row][col].adjacentBombs;
+    } else {
+      cell.textContent = '0';
     }
     cell.classList.add('clicked');
     score++;
@@ -168,6 +173,17 @@ function updateScore() {
 }
 
 /**
+ * Updates the highest score in local storage.
+ */
+function updateHighestScore() {
+  if (score > highestScore) {
+    highestScore = score;
+    localStorage.setItem('highestScore', highestScore);
+    highestScoreEl.textContent = `Highest Score: ${highestScore}`;
+  }
+}
+
+/**
  * Updates the grid size based on the range slider value.
  * @param {number} size - The new size of the grid cells.
  */
@@ -189,3 +205,4 @@ function setGridCount(newRows, newCols) {
 
 // Start a new game when the script is loaded
 resetGame();
+highestScoreEl.textContent = `Highest Score: ${highestScore}`;
