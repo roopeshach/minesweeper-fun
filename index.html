@@ -3,19 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper</title>
+  <title>Minesweeper - Ghost Theme</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <div class="game-container">
-    <h1>Minesweeper</h1>
-    <div class="grid-container" id="game-board"></div>
-    <div class="status">
-      <button class="reset-btn" onclick="resetGame()">Restart</button>
-      <span class="status-message" id="status-message"></span>
-    </div>
-  </div>
+    <div class="game-container">
+        <h1 class="title">Minesweeper</h1>
+        <div class="controls">
+          <label for="grid-size">Grid Size:</label>
+          <input type="range" id="grid-size" min="20" max="50" value="30" oninput="updateGridSize(this.value)">
+          <div class="grid-count-buttons">
+            <button onclick="setGridCount(8, 8)">8x8</button>
+            <button onclick="setGridCount(10, 10)">10x10</button>
+            <button onclick="setGridCount(12, 12)">12x12</button>
+          </div>
+        </div>
+        <div class="grid-container" id="game-board"></div>
+        <div class="status"></div>
+          <button class="reset-btn" onclick="resetGame()">Restart</button>
+          <span class="status-message" id="status-message"></span>
+          <span class="score" id="score">Score: 0</span>
+        </div>
+      </div>
+
   <script src="game.js"></script>
 </body>
 </html>

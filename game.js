@@ -1,21 +1,26 @@
 // Constants for the game configuration
-const rows = 10;
-const cols = 10;
+let rows = 10;
+let cols = 10;
 const totalBombs = 10;
+let gridSize = 30; // Default grid size
 
 // Game state variables
 let gameBoard = [];
 let gameOver = false;
+let score = 0;
 
 // DOM elements
 const gameBoardEl = document.getElementById('game-board');
 const statusMessageEl = document.getElementById('status-message');
+const scoreEl = document.getElementById('score');
 
 /**
  * Initializes the game board and starts a new game.
  */
 function createBoard() {
   gameBoard = [];
+  score = 0;
+  updateScore();
   for (let row = 0; row < rows; row++) {
     const rowArr = [];
     for (let col = 0; col < cols; col++) {
@@ -84,12 +89,14 @@ function revealCell(row, col) {
   if (gameBoard[row][col].hasBomb) {
     cell.innerHTML = `<i class="fas fa-bomb bomb"></i>`;
     gameOver = true;
-    statusMessageEl.textContent = 'Game Over!';
+    statusMessageEl.textContent = `Game Over! Final Score: ${score}`;
   } else {
     if (gameBoard[row][col].adjacentBombs > 0) {
       cell.textContent = gameBoard[row][col].adjacentBombs;
     }
     cell.classList.add('clicked');
+    score++;
+    updateScore();
   }
 }
 
@@ -120,6 +127,8 @@ function createCell(row, col) {
   const cell = document.createElement('div');
   cell.classList.add('grid-cell');
   cell.id = `cell-${row}-${col}`;
+  cell.style.width = `${gridSize}px`;
+  cell.style.height = `${gridSize}px`;
   cell.addEventListener('click', () => revealCell(row, col));
   cell.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -133,6 +142,7 @@ function createCell(row, col) {
  */
 function renderBoard() {
   gameBoardEl.innerHTML = '';
+  gameBoardEl.style.gridTemplateColumns = `repeat(${cols}, ${gridSize}px)`;
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       createCell(row, col);
@@ -148,6 +158,33 @@ function resetGame() {
   statusMessageEl.textContent = '';
   createBoard();
   renderBoard();
+}
+
+/**
+ * Updates the displayed score.
+ */
+function updateScore() {
+  scoreEl.textContent = `Score: ${score}`;
+}
+
+/**
+ * Updates the grid size based on the range slider value.
+ * @param {number} size - The new size of the grid cells.
+ */
+function updateGridSize(size) {
+  gridSize = size;
+  renderBoard();
+}
+
+/**
+ * Sets the grid count based on the selected button.
+ * @param {number} newRows - The number of rows.
+ * @param {number} newCols - The number of columns.
+ */
+function setGridCount(newRows, newCols) {
+  rows = newRows;
+  cols = newCols;
+  resetGame();
 }
 
 // Start a new game when the script is loaded
