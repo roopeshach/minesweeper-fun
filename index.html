@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>Minesweeper</h1>
+    <div class="grid-container" id="game-board"></div>
+    <div class="status">
+      <button class="reset-btn" onclick="resetGame()">Restart</button>
+      <span class="status-message" id="status-message"></span>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
